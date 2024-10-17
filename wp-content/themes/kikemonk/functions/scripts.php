@@ -9,7 +9,7 @@ function theme_scripts() {
 
 	wp_register_script(
 		"theme-defer",
-		get_template_directory_uri() . "/assets/js/main.js",
+		get_template_directory_uri() . "/assets/build/main.js",
 		"",
 		2,
 		true
@@ -19,7 +19,7 @@ function theme_scripts() {
 	// Main Style
 	wp_enqueue_style(
 		"master",
-		get_template_directory_uri() . "/dist/css/style.min.css",
+		get_template_directory_uri() . "/assets/build/style.css",
 		true,
 		"1.1",
 		"all"
