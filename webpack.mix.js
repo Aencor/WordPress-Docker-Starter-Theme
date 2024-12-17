@@ -25,7 +25,6 @@ mix
 	})
 	.setPublicPath(BUILD_DIR)
 	.js(`${ASSETS_DIR}/js/main.js`, BUILD_DIR)
-	.extract(VENDOR_LIBRARIES)
 	.sass(`${ASSETS_DIR}/scss/style.scss`, BUILD_DIR)
 	.options({
 		processCssUrls: false,
@@ -50,9 +49,9 @@ mix.browserSync({
 });
 
 mix.webpackConfig({
-  watchOptions: {
-    ignored: /build/, // Ignora los archivos en la carpeta build
-  },
+	watchOptions: {
+		ignored: /build/, // Ignora los archivos en la carpeta build
+	},
 	plugins: [
 		new webpack.ProvidePlugin({
 			$: 'jquery',
