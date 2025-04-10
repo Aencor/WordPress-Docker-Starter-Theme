@@ -1,3 +1,12 @@
+<?php
+/**
+ * Block Name: Styleguide
+ * Slug: styleguide
+ * Description: Styleguide Block.
+ * Keywords: Styleguide
+ * Align: full
+ */
+?>
 <section id="styleguide" data-block="styleguide" class="py-5 px-4 sm:px-0">
     <header id="style-head">
         <div class="container xl mx-auto">

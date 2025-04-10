@@ -8,3 +8,4 @@ wp-content/themes/twentytwentyfour/
 wp-content/themes/twentytwentythree/
 wp-content/themes/twentytwentytwo/
 node_modules
+*.map

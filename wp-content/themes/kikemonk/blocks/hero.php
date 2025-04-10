@@ -1,30 +1,37 @@
 <?php
-// Global Block
-$id = $block["id"];
-$customID = get_field('block_id');
-if($customID){
-	$blockID = $customID;
-} else { 
-	$blockID = $id;
-}
+/**
+ * Block Name: Hero
+ * Slug: hero
+ * Description: Display Hero Section.
+ * Keywords: Hero
+ * Align: full
+ */
 
-$blockTitle = get_field('block_title');
-$blockContent = get_field('block_content');
-$blockCTA = get_field('block_cta');
-$blockImage = get_field('block_image');
-$blockBGImage = get_field('block_background_image');
-$addMask = get_field('add_circle_mask');
+  $block_name = 'hero-block';
+  $blockID = $block_name . '-' . $block['id'];
+  if (!empty(get_field('block_id'))) {
+    $blockID = get_field('block_id');
+  }
+  $className   = array( $block_name );
+  $editBG = get_field('edit_background_options');
+  $editPadding = get_field('edit_padding_options');
+  if($editBG){
+    $bgColor = get_field('background_color');
+    array_push($className, $bgColor);
+  }
+
+  if($editPadding){
+    $topP = get_field('padding_top');
+    $bottomP = get_field('padding_bottom');
+    array_push($className, 'pt-' . $topP);
+    array_push($className, 'pb-' . $bottomP);
+  }
 ?>
-
-<section id="<?= $blockID; ?>" data-block="template-block" class="base-block hero-block py-40 md:py-52 bg-cover px-6 sm:px-0" <?= $blockBGImage ? 'style="background-image:url(' . $blockBGImage['url'] . ');"' : null ?>>
- <div class="container mx-auto xl">
-  <?= $addMask ? '<div class="circle-mask"></div>' : null ?>
-  <div class="hero-text w-full sm:w-1/2">
-    <?= $blockTitle ? '<h1 class="hero-title">' . $blockTitle . '</h1>' : null ?>
-    <?= $blockContent ? '<div class="h-content lead">' . $blockContent . '</div>' : null; ?>
-    <?= $blockCTA ? '<a href="' . $blockCTA['url'] . '" class="mt-10 hero-cta btn btn-tertiary btn-large">' . $blockCTA['title'] . '</a>' : null; ?>
-  </div>
-
-  <?= $blockImage ? '<img src="' . $blockImage['url'] . '" alt="' . $blockImage['name'] . '" class="max-w-md hero-image hidden lg:block absolute">' : null; ?>
- </div>
-</section>
+ 
+ <section 
+  id="<?= $blockID; ?>" 
+  data-block="name-block" 
+  class="<?php echo implode( ' ', $className ); ?>"
+>
+  
+ </section>

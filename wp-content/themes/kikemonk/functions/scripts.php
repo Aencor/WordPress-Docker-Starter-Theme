@@ -10,9 +10,9 @@ function theme_scripts() {
 	wp_register_script(
 		"theme-defer",
 		get_template_directory_uri() . "/assets/build/main.js",
-		"",
-		2,
-		true
+		['jquery'], // Dependencia de jQuery
+		'1.0.1',
+		false
 	);
 	wp_enqueue_script("theme-defer");
 	
