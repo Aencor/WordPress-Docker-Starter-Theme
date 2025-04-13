@@ -28,7 +28,7 @@ mix
 	.sass(`${ASSETS_DIR}/scss/style.scss`, BUILD_DIR)
 	.options({
 		processCssUrls: false,
-		postCss: [require('tailwindcss'), require('autoprefixer')],
+		postCss: [require('@tailwindcss/postcss'), require('autoprefixer')],
 	})
 	.sourceMaps(true, 'source-map')
 	.browserSync(PROXY);
