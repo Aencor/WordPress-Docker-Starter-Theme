@@ -1,6 +1,7 @@
 
 wp-content/index.php
-wp-content/plugins/akismet/
+wp-content/uploads/
+wp-content/plugins/
 wp-content/plugins/hello.php
 wp-content/plugins/index.php
 wp-content/themes/index.php

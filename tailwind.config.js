@@ -2,7 +2,16 @@
 module.exports = {
   content: ["./wp-content/themes/kikemonk/**/*.{php,html,js}"],
   theme: {
-    extend: {},
+    extend: {
+      // If you want to extend or customize gradients
+      backgroundImage: {
+        'gradient-radial': 'radial-gradient(var(--tw-gradient-stops))',
+        'gradient-conic': 'conic-gradient(from 180deg, var(--tw-gradient-stops))',
+      },
+    },
   },
-  plugins: [],
+  plugins: [
+    require('@tailwindcss/forms'),
+    require('@tailwindcss/typography'),
+  ],
 }

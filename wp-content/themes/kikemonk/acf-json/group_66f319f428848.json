@@ -1,10 +1,10 @@
 {
-    "key": "group_66f306dd461c6",
-    "title": "Block - Hero",
+    "key": "group_66f319f428848",
+    "title": "Block - CTA Label",
     "fields": [
         {
-            "key": "field_66f306ddc0a6e",
-            "label": "Block - Hero",
+            "key": "field_66f319f48bbd6",
+            "label": "Block - CTA Label",
             "name": "",
             "aria-label": "",
             "type": "accordion",
@@ -21,8 +21,8 @@
             "endpoint": 0
         },
         {
-            "key": "field_66f307ef89a1b",
-            "label": "Block Contents",
+            "key": "field_66f31a018bbd7",
+            "label": "Block Content",
             "name": "",
             "aria-label": "",
             "type": "tab",
@@ -38,85 +38,60 @@
             "endpoint": 0
         },
         {
-            "key": "field_66f306e9c0a6f",
-            "label": "Block Title",
-            "name": "block_title",
+            "key": "field_66f31a0b8bbd8",
+            "label": "CTA Text",
+            "name": "cta_text",
             "aria-label": "",
-            "type": "text",
+            "type": "textarea",
             "instructions": "",
             "required": 0,
             "conditional_logic": 0,
             "wrapper": {
-                "width": "",
+                "width": "50",
                 "class": "",
                 "id": ""
             },
             "default_value": "",
             "maxlength": "",
+            "rows": 4,
             "placeholder": "",
-            "prepend": "",
-            "append": ""
+            "new_lines": "br"
         },
         {
-            "key": "field_66f306f2c0a70",
-            "label": "Block Content",
-            "name": "block_content",
-            "aria-label": "",
-            "type": "wysiwyg",
-            "instructions": "",
-            "required": 0,
-            "conditional_logic": 0,
-            "wrapper": {
-                "width": "",
-                "class": "",
-                "id": ""
-            },
-            "default_value": "",
-            "tabs": "all",
-            "toolbar": "full",
-            "media_upload": 0,
-            "delay": 0
-        },
-        {
-            "key": "field_66f30703c0a71",
-            "label": "Block CTA",
-            "name": "block_cta",
+            "key": "field_66f31a248bbd9",
+            "label": "CTA",
+            "name": "cta",
             "aria-label": "",
             "type": "link",
             "instructions": "",
             "required": 0,
             "conditional_logic": 0,
             "wrapper": {
-                "width": "25",
+                "width": "30",
                 "class": "",
                 "id": ""
             },
             "return_format": "array"
         },
         {
-            "key": "field_66f307b456c8d",
-            "label": "Block Background Image",
-            "name": "block_background_image",
+            "key": "field_66f439c1a7cce",
+            "label": "Stacked",
+            "name": "stacked",
             "aria-label": "",
-            "type": "image",
+            "type": "true_false",
             "instructions": "",
             "required": 0,
             "conditional_logic": 0,
             "wrapper": {
-                "width": "75",
+                "width": "20",
                 "class": "",
                 "id": ""
             },
-            "return_format": "array",
-            "library": "all",
-            "min_width": "",
-            "min_height": "",
-            "min_size": "",
-            "max_width": "",
-            "max_height": "",
-            "max_size": "",
-            "mime_types": "",
-            "preview_size": "medium"
+            "message": "",
+            "default_value": 0,
+            "ui_on_text": "",
+            "ui_off_text": "",
+            "ui": 1
         }
     ],
     "location": [
@@ -124,7 +99,7 @@
             {
                 "param": "block",
                 "operator": "==",
-                "value": "acf\/hero"
+                "value": "acf\/cta-label"
             }
         ]
     ],
@@ -137,5 +112,5 @@
     "active": true,
     "description": "",
     "show_in_rest": 0,
-    "modified": 1761075215
+    "modified": 1727281644
 }

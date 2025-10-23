@@ -1,37 +1,46 @@
 <?php
-/**
- * Block Name: Hero
- * Slug: hero
- * Description: Display Hero Section.
- * Keywords: Hero
- * Align: full
- */
+$blockClasses = [];
 
-  $block_name = 'hero-block';
-  $blockID = $block_name . '-' . $block['id'];
-  if (!empty(get_field('block_id'))) {
-    $blockID = get_field('block_id');
-  }
-  $className   = array( $block_name );
-  $editBG = get_field('edit_background_options');
-  $editPadding = get_field('edit_padding_options');
-  if($editBG){
-    $bgColor = get_field('background_color');
-    array_push($className, $bgColor);
-  }
+// Global block variables
+$id = $block['id'];
+$customID = get_field('block_id');
+$blockBG = get_field('block_background');
+$paddingOptions = get_field('padding_options');
+$marginOptions = get_field('margin_options');
 
-  if($editPadding){
-    $topP = get_field('padding_top');
-    $bottomP = get_field('padding_bottom');
-    array_push($className, 'pt-' . $topP);
-    array_push($className, 'pb-' . $bottomP);
-  }
+// Get and clean the block name (e.g., "acf/hero" → "hero")
+$blockName = str_replace('acf/', '', $block['name']);
+
+// Set block ID (custom if available)
+$blockID = $customID ? $customID : $id;
+
+// Handle padding options
+if ($paddingOptions) {
+	$paddingTop = 'pt-' . $paddingOptions['padding_top'];
+	$paddingBottom = 'pb-' . $paddingOptions['padding_bottom'];
+	array_push($blockClasses, $paddingTop, $paddingBottom);
+}
+
+// Handle margin options
+if ($marginOptions) {
+	$marginTop = 'mt-' . $marginOptions['margin_top'];
+	$marginBottom = 'mb-' . $marginOptions['margin_bottom'];
+	array_push($blockClasses, $marginTop, $marginBottom);
+}
+
+// Handle background color or class
+if ($blockBG) {
+	array_push($blockClasses, 'bg-' . $blockBG);
+}
+
+// Add base class for the block (e.g., "block-hero")
+array_unshift($blockClasses, 'block-' . $blockName);
 ?>
- 
- <section 
-  id="<?= $blockID; ?>" 
-  data-block="name-block" 
-  class="<?php echo implode( ' ', $className ); ?>"
+
+<section 
+	id="<?= esc_attr($blockID); ?>" 
+	data-block="<?= esc_attr($blockName); ?>" 
+	class="<?= esc_attr(implode(' ', $blockClasses)); ?>"
 >
-  
- </section>
+	<!-- Block content goes here -->
+</section>
