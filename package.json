@@ -1,7 +1,7 @@
 {
-  "name": "Kikemonk",
+  "name": "Codebymonk",
   "version": "1.1.0",
-  "description": "Kikemonk new Site",
+  "description": "Codebymonk new Site",
   "main": "index.js",
   "scripts": {
     "dev": "npm run development",
@@ -12,9 +12,10 @@
     "prod": "npm run production",
     "production": "mix --production"
   },
-  "author": "kikemonk",
+  "author": "codebymonk",
   "license": "ISC",
   "dependencies": {
+    "@fortawesome/fontawesome-free": "^7.2.0",
     "aos": "^2.3.4",
     "gsap": "^3.12.5",
     "imagesloaded": "^5.0.0",

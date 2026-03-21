@@ -1,6 +1,6 @@
 /** @type {import('tailwindcss').Config} */
 module.exports = {
-  content: ["./wp-content/themes/kikemonk/**/*.{php,html,js}"],
+  content: ["./wp-content/themes/codebymonk/**/*.{php,html,js}"],
   theme: {
     extend: {
       // If you want to extend or customize gradients

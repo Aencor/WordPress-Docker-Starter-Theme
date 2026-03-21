@@ -4,7 +4,7 @@ const webpack = require('webpack');
 require('dotenv').config();
 
 // The theme name should be located in your .env file
-const THEME_NAME = process.env.THEME_NAME || 'kikemonk',
+const THEME_NAME = process.env.THEME_NAME || 'codebymonk',
 	PROXY = process.env.PROXY,
 	THEME_DIRECTORY = `wp-content/themes/${THEME_NAME}`,
 	ASSETS_DIR = `${THEME_DIRECTORY}/assets`,
