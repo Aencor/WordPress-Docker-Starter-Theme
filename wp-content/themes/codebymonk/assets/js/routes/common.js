@@ -1,14 +1,9 @@
 
-// import Animations from '../modules/animations';
-// import { slick } from 'slick-carousel';
-// import 'slick-carousel/slick/slick.css';
-// import 'slick-carousel/slick/slick-theme.css';
+import Animations from '../modules/animations';
 
 export default {
-
   init() {
-
-    // Animations.init();
+    Animations.init();
   },
-  finalize() { }
-}
+  finalize() {},
+};

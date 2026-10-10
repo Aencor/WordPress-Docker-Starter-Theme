@@ -1,64 +1,107 @@
 <?php
-// [button text="text" size="large" url="url" target="target"]
-function button_func($atts) {
+
+/**
+ * Shortcode: [button] o [btn]
+ *
+ * Ejemplos:
+ * [button url="/contacto" variant="primary" size="lg"]Contáctanos[/button]
+ * [button text="Ver más" url="/servicios" variant="outline" target="_blank"]
+ */
+function cbm_button_shortcode($atts, $content = null) {
 	$a = shortcode_atts(
 		[
-			"text" => "Button Text",
-			"url" => "/",
-			"target" => "_self",
-			"size" => "large"
+			'text'    => '',
+			'url'     => '#',
+			'target'  => '_self',
+			'variant' => 'primary',
+			'size'    => 'md',
+			'class'   => '',
 		],
-		$atts
+		$atts,
+		'button'
 	);
 
-	$s = "<a class='btn btn-primary btn-{$a["size"]}' href='{$a["url"]}' target='{$a["target"]}'>{$a["text"]}</a>";
+	// Usar el contenido encerrado si existe, o el atributo text
+	$label = !empty($content) ? $content : (!empty($a['text']) ? $a['text'] : __('Click aquí', 'codebymonk'));
 
-		return $s;
-	}
-	add_shortcode("button", "button_func");
+	// Clases base y variantes con soporte Tailwind
+	$classes = [
+		'inline-flex items-center justify-center font-medium transition-all duration-200 rounded-lg focus:outline-none cursor-pointer',
+		'btn',
+		'btn-' . sanitize_html_class($a['variant']),
+		'btn-' . sanitize_html_class($a['size']),
+	];
 
-	function carousel_func($atts) {
-		$a = shortcode_atts(
-			[
-					"id" => "1",
-					"size" => "normal"
-			],
-			$atts
-	);
-
-	$args = array(
-			'post_type' => 'carousel',
-			'p'         => $a['id'],
-	);
-
-	$query = new WP_Query($args);
-	if ($query->have_posts()) {
-			$output = '<div class="inline-carousel carousels">';
-			while ($query->have_posts()) {
-					$query->the_post();
-					
-					// Check if the repeater field has rows of data
-					if (have_rows('carousel_images', $a['id'])) { // Replace 'carousel_images' with your actual repeater field name
-							while (have_rows('carousel_images', $a['id'])) {
-									the_row();
-									
-									// Get subfield value
-									$image = get_sub_field('image'); // Replace 'image' with your actual subfield name
-									
-									if ($image) {
-											$output .= '<div class="carousel-item carousel-' . $a['size'] . '" style="background-image:url(' . esc_url($image['url']) . ')">';
-											$output .= '</div>';
-									}
-							}
-					}
-			}
-			$output .= '</div>';
-	} else {
-			$output = '<p>No carousels found</p>';
+	if (!empty($a['class'])) {
+		$classes[] = sanitize_text_field($a['class']);
 	}
 
-	wp_reset_postdata();
-	return $output;
+	$class_attr  = esc_attr(implode(' ', array_filter($classes)));
+	$url_attr    = esc_url($a['url']);
+	$target_attr = esc_attr($a['target']);
+	$rel_attr    = ($target_attr === '_blank') ? ' rel="noopener noreferrer"' : '';
 
+	return sprintf(
+		'<a href="%s" target="%s"%s class="%s">%s</a>',
+		$url_attr,
+		$target_attr,
+		$rel_attr,
+		$class_attr,
+		wp_kses_post(do_shortcode($label))
+	);
 }
-add_shortcode("carousel", "carousel_func");
+add_shortcode('button', 'cbm_button_shortcode');
+add_shortcode('btn', 'cbm_button_shortcode');
+
+/**
+ * Shortcode: [year]
+ * Devuelve el año actual dinámicamente (útil para copyright en el footer)
+ */
+function cbm_current_year_shortcode() {
+	return esc_html(date_i18n('Y'));
+}
+add_shortcode('year', 'cbm_current_year_shortcode');
+
+/**
+ * Shortcode: [carousel id="123" size="normal"]
+ */
+function cbm_carousel_shortcode($atts) {
+	$a = shortcode_atts(
+		[
+			'id'   => 0,
+			'size' => 'normal',
+		],
+		$atts,
+		'carousel'
+	);
+
+	$post_id = intval($a['id']);
+	if (!$post_id) {
+		return '';
+	}
+
+	$size_class = sanitize_html_class($a['size']);
+	$output = '';
+
+	if (have_rows('carousel_images', $post_id)) {
+		$output .= '<div class="inline-carousel carousels relative overflow-hidden">';
+		while (have_rows('carousel_images', $post_id)) {
+			the_row();
+			$image = get_sub_field('image');
+
+			if (!empty($image['url'])) {
+				$output .= sprintf(
+					'<div class="carousel-item carousel-%s bg-cover bg-center" style="background-image: url(\'%s\');" role="img" aria-label="%s"></div>',
+					esc_attr($size_class),
+					esc_url($image['url']),
+					esc_attr($image['alt'] ?? '')
+				);
+			}
+		}
+		$output .= '</div>';
+	}
+
+	return $output;
+}
+add_shortcode('carousel', 'cbm_carousel_shortcode');
+

@@ -1,40 +1,40 @@
-document.addEventListener("DOMContentLoaded", (event) => {
-  gsap.registerPlugin(Flip, ScrollTrigger, ScrollToPlugin, TextPlugin);
+/**
+ * Block Script: Side By Side
+ */
+(function () {
+  function initSideBySide(block) {
+    if (typeof gsap === 'undefined') return;
 
-  // GSAP Sets y Animación
-  document.querySelectorAll('.side-by-side-block').forEach(block => {
-    var sideTL = gsap.timeline();
-    var textContent = block.querySelector('.text-content');
-    var imageContent = block.querySelector('.image-content');
+    const textContent = block.querySelector('.text-content');
+    const imageContent = block.querySelector('.image-content');
 
-    // GSAP Sets
-    gsap.set(textContent, {
-      y: -40, 
-      autoAlpha: 0
+    const tl = gsap.timeline({
+      scrollTrigger: {
+        trigger: block,
+        start: 'top 80%',
+        toggleActions: 'play none none none',
+      },
     });
 
-    gsap.set(imageContent, {
-      y: 40, 
-      autoAlpha: 0
-    });
+    if (textContent) {
+      tl.from(textContent, { y: -40, autoAlpha: 0, duration: 0.8 });
+    }
 
-    // Animación Side by Side
-    sideTL
-      .to(textContent, {
-        y: 0,
-        autoAlpha: 1
-      })
-      .to(imageContent, {
-        y: 0,
-        autoAlpha: 1
-      });
+    if (imageContent) {
+      tl.from(imageContent, { y: 40, autoAlpha: 0, duration: 0.8 }, '-=0.4');
+    }
+  }
 
-    // ScrollTrigger para cada bloque
-    ScrollTrigger.create({
-      trigger: block,
-      start: 'top center',
-      end: 'bottom',
-      animation: sideTL
-    });
+  // Inicializar en frontend al cargar el DOM
+  document.addEventListener('DOMContentLoaded', () => {
+    document.querySelectorAll('.block-side-by-side, [data-block="side-by-side"]').forEach(initSideBySide);
   });
-});
+
+  // Soporte para vista previa en vivo en el editor Gutenberg (ACF)
+  if (typeof window !== 'undefined' && window.acf) {
+    window.acf.addAction('render_block_preview/type=side-by-side', ($block) => {
+      initSideBySide($block[0] || $block);
+    });
+  }
+})();
+

@@ -1,36 +1,33 @@
 <?php
-if (function_exists("acf_add_options_page")) {
-	acf_add_options_page([
-		"page_title" => "Global Settings",
-		"menu_title" => "Global Settings",
-		"menu_slug" => "theme-general-options",
-		"capability" => "edit_posts",
-		"redirect" => true,
-		"icon_url" => "dashicons-admin-site",
-		"position" => 58 // End of the menu, before the separator at 59
-	]);
 
-	acf_add_options_sub_page([
-		"page_title" => "Menu Options",
-		"menu_title" => "Menu Options",
-		"parent_slug" => "theme-general-options"
-	]);
+if (!function_exists('acf_add_options_page')) {
+	return;
+}
 
-	acf_add_options_sub_page([
-		"page_title" => "Global Settings",
-		"menu_title" => "Global Settings",
-		"parent_slug" => "theme-general-options"
-	]);
+// Página principal de Opciones
+acf_add_options_page([
+	'page_title' => __('Global Settings', 'codebymonk'),
+	'menu_title' => __('Global Settings', 'codebymonk'),
+	'menu_slug'  => 'theme-general-options',
+	'capability' => 'edit_posts',
+	'redirect'   => true,
+	'icon_url'   => 'dashicons-admin-site',
+	'position'   => 58,
+]);
 
-	acf_add_options_sub_page([
-		"page_title" => "External Scripts",
-		"menu_title" => "External Scripts",
-		"parent_slug" => "theme-general-options"
-	]);
+// Subpáginas (solo agrega el título a la lista para registrar nuevas)
+$sub_pages = [
+	'Menu Options',
+	'Global Settings',
+	'External Scripts',
+	'404 Page',
+];
 
+foreach ($sub_pages as $title) {
 	acf_add_options_sub_page([
-		"page_title" => "404 Page",
-		"menu_title" => "404 Page",
-		"parent_slug" => "theme-general-options"
+		'page_title'  => __($title, 'codebymonk'),
+		'menu_title'  => __($title, 'codebymonk'),
+		'parent_slug' => 'theme-general-options',
 	]);
 }
+

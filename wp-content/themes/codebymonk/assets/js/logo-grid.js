@@ -1,49 +1,43 @@
-document.addEventListener("DOMContentLoaded", (event) => {
-  gsap.registerPlugin(Flip, ScrollTrigger, ScrollToPlugin, TextPlugin);
+/**
+ * Block Script: Logo Grid
+ */
+(function () {
+  function initLogoGrid(block) {
+    if (typeof gsap === 'undefined') return;
 
-  // GSAP Sets y Animación
-  document.querySelectorAll('.logo-grid-block').forEach(block => {
-    var gridTL = gsap.timeline();
-    var logos = '.grid-item',
-        title = '.grid-title',
-        cta = '.grid-cta';
+    const title = block.querySelector('.grid-title');
+    const logos = block.querySelectorAll('.grid-item');
+    const cta = block.querySelector('.grid-cta');
 
-    // GSAP Sets
-    gsap.set(logos, {
-      y: -40, 
-      autoAlpha: 0
+    const tl = gsap.timeline({
+      scrollTrigger: {
+        trigger: block,
+        start: 'top 80%',
+        toggleActions: 'play none none none',
+      },
     });
 
-    gsap.set(title, {
-      y: 40, 
-      autoAlpha: 0
-    });
+    if (title) {
+      tl.from(title, { y: -30, autoAlpha: 0, duration: 0.6 });
+    }
+    if (logos.length > 0) {
+      tl.from(logos, { y: 30, autoAlpha: 0, duration: 0.5, stagger: 0.1 }, '-=0.3');
+    }
+    if (cta) {
+      tl.from(cta, { autoAlpha: 0, duration: 0.5 }, '-=0.2');
+    }
+  }
 
-    gsap.set(cta, { 
-      autoAlpha: 0
-    });
-
-    // Animación Side by Side
-    gridTL
-      .to(title, {
-        y: 0,
-        autoAlpha: 1
-      })
-      .to(logos, {
-        y: 0,
-        autoAlpha: 1,
-        stagger : 0.2
-      })
-      .to(cta, {
-        autoAlpha: 1
-      });
-
-    // ScrollTrigger para cada bloque
-    ScrollTrigger.create({
-      trigger: block,
-      start: 'top center',
-      end: 'bottom',
-      animation: gridTL
-    });
+  // Inicializar en frontend al cargar el DOM
+  document.addEventListener('DOMContentLoaded', () => {
+    document.querySelectorAll('.block-logo-grid, [data-block="logo-grid"]').forEach(initLogoGrid);
   });
-});
+
+  // Soporte para vista previa en vivo en el editor Gutenberg (ACF)
+  if (typeof window !== 'undefined' && window.acf) {
+    window.acf.addAction('render_block_preview/type=logo-grid', ($block) => {
+      initLogoGrid($block[0] || $block);
+    });
+  }
+})();
+
