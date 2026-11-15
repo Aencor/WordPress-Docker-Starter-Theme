@@ -78,6 +78,15 @@ function register_acf_block_types() {
 		// Generar título legible (hero -> Hero, cta-label -> Cta Label)
 		$title = ucwords(str_replace(['-', '_'], ' ', $slug));
 
+		// Auto-detectar screenshot/preview para el backend Gutenberg (Regla 7)
+		$preview_image = null;
+		foreach (['png', 'jpg', 'jpeg', 'svg', 'webp'] as $ext) {
+			if (file_exists(get_template_directory() . "/assets/img/blocks/{$slug}.{$ext}")) {
+				$preview_image = get_template_directory_uri() . "/assets/img/blocks/{$slug}.{$ext}";
+				break;
+			}
+		}
+
 		$block_data = [
 			'name'            => $slug,
 			'title'           => __($title, 'codebymonk'),
@@ -89,6 +98,15 @@ function register_acf_block_types() {
 			'supports'        => [
 				'align'  => false,
 				'anchor' => true,
+			],
+			'example'         => [
+				'attributes' => [
+					'mode' => 'preview',
+					'data' => [
+						'is_preview'    => true,
+						'preview_image' => $preview_image,
+					],
+				],
 			],
 		];
 
