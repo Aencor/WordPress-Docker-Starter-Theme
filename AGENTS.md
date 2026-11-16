@@ -114,6 +114,10 @@ Este proyecto utiliza el tema base personalizado **codebymonk** con Docker, ACF 
   - Mover y clasificar cualquier imagen suelta dentro de su subcarpeta semántica en `assets/img/` (`logos/`, `photos/`, `backgrounds/`, `blocks/`, `icons/`).
   - Separar estilos en archivos SCSS dedicados (`assets/scss/blocks/_{slug}.scss`) e integrarlos en `_all.scss`.
   - Modularizar scripts con GSAP y trasladar lógica repetitiva a clases en `classes/` aplicando DRY y SOLID.
+  - Diferir librerías pesadas (Three.js, WebGL) mediante `requestIdleCallback` para eliminar bloqueos del hilo principal (TBT).
+  - Eliminar cualquier directiva `@import url()` en hojas de estilo SCSS/CSS y asegurar `font-display: swap` en todas las fuentes.
+  - Asignar atributos `aria-label` a enlaces visuales/botones sin texto y corregir la jerarquía secuencial de encabezados.
+  - Verificar la existencia física en disco de todos los assets referenciados para garantizar cero errores 404 en consola.
   - Purgar cualquier tema ajeno a `codebymonk` en `wp-content/themes/`.
 
 ---
@@ -127,18 +131,25 @@ Este proyecto utiliza el tema base personalizado **codebymonk** con Docker, ACF 
 
 ### 16. Optimización SEO, GEO SEO, PageSpeed Insights, AdSense y Custom Code
 - **SEO On-Page y Semántica HTML5**:
-  - Estructuración semántica obligatoria con jerarquía lógica de encabezados (`<h1>` único por página, seguido de `<h2>`-`<h6>`).
-  - Metadatos dinámicos integrados: títulos optimizados, meta descriptions, canonical URLs, robots meta (`index, follow`).
+  - Estructuración semántica obligatoria con jerarquía lógica y secuencial de encabezados (`<h1>` único por página, seguido de `<h2>`-`<h6>` estrictamente descendentes sin saltos de nivel como `<h2>` a `<h4>`).
+  - Metadatos dinámicos integrados: títulos optimizados, meta descriptions obligatorias en todas las páginas, canonical URLs, robots meta (`index, follow`).
   - Open Graph (`og:title`, `og:description`, `og:image`, `og:url`, `og:type`) y Twitter Cards dinámicos para previsualización enriquecida en redes sociales.
   - Atributos `alt` descriptivos obligatorios en todas las imágenes renderizadas (mediante ACF o medios de WordPress).
+- **Accesibilidad Web (A11y y WCAG AA - Lighthouse 100)**:
+  - **Nombres Discernibles en Enlaces (`link-name`)**: Todo enlace (`<a>`), tarjeta visual de portafolio, mockup interactivo o botón con solo iconos que no contenga texto visible DEBE incluir obligatoriamente un atributo `aria-label` descriptivo (ej: `aria-label="Ver proyecto <?php the_title(); ?>"`).
+  - **Jerarquía Secuencial de Encabezados (`heading-order`)**: Nunca colocar etiquetas `<h4>` precedidas por un `<div>` o contenedor no encabezado; asegurar que los subtítulos y bloques sigan un árbol estricto `<h1>` -> `<h2>` -> `<h3>` -> `<h4>`.
+  - **Contraste de Color Mínimo (`color-contrast`)**: Todos los textos secundarios, badges o etiquetas mono deben garantizar un ratio de contraste mínimo de `4.5:1` con su fondo (WCAG AA) en ambos modos (claro y oscuro), evitando grises excesivamente claros sobre fondos neutros (ej: preferir `#525252` sobre `#737373` en fondos `#f4f4f0`).
 - **GEO SEO (SEO Local y Datos Estructurados Schema.org)**:
   - Soporte para etiquetas meta de geolocalización regional y local (`geo.region`, `geo.placename`, `geo.position`, `ICBM`).
   - Inclusión de Schema.org en formato JSON-LD (`WebSite`, `Organization`, `LocalBusiness`, `GeoCoordinates`, `PostalAddress`, `BreadcrumbList`).
   - Campos configurables en Theme Options para definir datos del negocio, coordenadas geográficas, dirección y teléfono para indexación local precisa.
-- **PageSpeed Insights y Core Web Vitals (LCP, FID/INP, CLS)**:
+- **PageSpeed Insights y Core Web Vitals (LCP, TBT, CLS - Performance 95-100)**:
+  - **Cero Bloqueo de Hilo Principal (TBT < 50ms) con `requestIdleCallback`**: Módulos pesados en cliente como librerías 3D (Three.js, WebGL), canvas interactivos, cursores complejos o animaciones de fondo NO deben ejecutarse durante el primer render, incluso si están above-the-fold. Deben diferirse sistemáticamente mediante `requestIdleCallback` (o tras el evento `load` en estado ocioso del navegador) para mantener el TBT cercano a cero.
+  - **Prohibición de `@import url()` en SCSS/CSS**: Prohibido estrictamente utilizar `@import url(...)` dentro de hojas de estilo SCSS o CSS para tipografías externas o librerías, ya que generan cadenas de solicitudes bloqueantes. Las fuentes deben precargarse exclusivamente en el `<head>` vía `<link rel="preload">` y `<link rel="preconnect">`.
+  - **Política `font-display: swap` en todas las fuentes**: Forzar siempre `font-display: swap` tanto en tipografías de Google Fonts como en librerías de iconos externas (Font Awesome, etc.) mediante `@font-face { font-display: swap; }` para evitar texto invisible durante la descarga de fuentes.
+  - **Cero Errores de Consola y Red 404 (Best Practices 100)**: Antes de imprimir cualquier imagen estática, icono o archivo SVG (ej: logos en carruseles o tickers), verificar la existencia real del archivo en disco (`file_exists()`) para no generar peticiones fallidas 404 que penalicen la auditoría de Best Practices.
   - Carga asíncrona o diferida de scripts (`defer` / `async`) para eliminar bloqueos de renderizado en el hilo principal.
   - Scripts encolados en el footer siempre que no sean críticos para el primer render.
-  - Optimización de fuentes y recursos externos: uso de `preconnect` y `dns-prefetch` para Google Fonts, CDNs y APIs externas; `font-display: swap` en tipografías.
   - Cero Cumulative Layout Shift (CLS): declarar siempre dimensiones explícitas (`width` y `height`) o relaciones de aspecto (`aspect-ratio`) en imágenes, contenedores y bloques visuales.
   - Atributos nativos `loading="lazy"` y `decoding="async"` en imágenes y elementos multimedia situados bajo el pliegue inicial (below-the-fold).
 - **Integración y Soporte para Google AdSense**:
