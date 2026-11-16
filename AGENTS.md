@@ -1,6 +1,6 @@
 # Reglas de Desarrollo del Proyecto (WordPress / Codebymonk)
 
-Este proyecto utiliza el tema base personalizado **codebymonk** con Docker, ACF Pro (Advanced Custom Fields), Tailwind CSS, GSAP y Laravel Mix. Todo desarrollo futuro debe adherirse estrictamente a las siguientes 15 reglas:
+Este proyecto utiliza el tema base personalizado **codebymonk** con Docker, ACF Pro (Advanced Custom Fields), Tailwind CSS, GSAP y Laravel Mix. Todo desarrollo futuro debe adherirse estrictamente a las siguientes 16 reglas:
 
 ---
 
@@ -122,4 +122,32 @@ Este proyecto utiliza el tema base personalizado **codebymonk** con Docker, ACF 
 - Al concluir o entregar cualquier proyecto derivado, se debe contrastar y revisar este listado maestro de reglas (`AGENTS.md`).
 - Si durante el desarrollo de ese proyecto se optimizaron flujos, se corrigieron arquitecturas o se descubrieron mejores prácticas de carácter **global** (aplicables a todos los desarrollos y no específicas de un cliente o funcionalidad aislada), dichas optimizaciones deben transferirse y actualizarse en este repositorio base (`WordPress-Docker-Starter-Theme`).
 - Esto garantiza que cada nuevo sitio comience con la base más refinada y actualizada.
+
+---
+
+### 16. Optimización SEO, GEO SEO, PageSpeed Insights, AdSense y Custom Code
+- **SEO On-Page y Semántica HTML5**:
+  - Estructuración semántica obligatoria con jerarquía lógica de encabezados (`<h1>` único por página, seguido de `<h2>`-`<h6>`).
+  - Metadatos dinámicos integrados: títulos optimizados, meta descriptions, canonical URLs, robots meta (`index, follow`).
+  - Open Graph (`og:title`, `og:description`, `og:image`, `og:url`, `og:type`) y Twitter Cards dinámicos para previsualización enriquecida en redes sociales.
+  - Atributos `alt` descriptivos obligatorios en todas las imágenes renderizadas (mediante ACF o medios de WordPress).
+- **GEO SEO (SEO Local y Datos Estructurados Schema.org)**:
+  - Soporte para etiquetas meta de geolocalización regional y local (`geo.region`, `geo.placename`, `geo.position`, `ICBM`).
+  - Inclusión de Schema.org en formato JSON-LD (`WebSite`, `Organization`, `LocalBusiness`, `GeoCoordinates`, `PostalAddress`, `BreadcrumbList`).
+  - Campos configurables en Theme Options para definir datos del negocio, coordenadas geográficas, dirección y teléfono para indexación local precisa.
+- **PageSpeed Insights y Core Web Vitals (LCP, FID/INP, CLS)**:
+  - Carga asíncrona o diferida de scripts (`defer` / `async`) para eliminar bloqueos de renderizado en el hilo principal.
+  - Scripts encolados en el footer siempre que no sean críticos para el primer render.
+  - Optimización de fuentes y recursos externos: uso de `preconnect` y `dns-prefetch` para Google Fonts, CDNs y APIs externas; `font-display: swap` en tipografías.
+  - Cero Cumulative Layout Shift (CLS): declarar siempre dimensiones explícitas (`width` y `height`) o relaciones de aspecto (`aspect-ratio`) en imágenes, contenedores y bloques visuales.
+  - Atributos nativos `loading="lazy"` y `decoding="async"` en imágenes y elementos multimedia situados bajo el pliegue inicial (below-the-fold).
+- **Integración y Soporte para Google AdSense**:
+  - Arquitectura preparada para insertar script global de AdSense y bloques de anuncios responsivos sin degradar las métricas de PageSpeed.
+  - Carga diferida condicional de scripts publicitarios para no penalizar el tiempo de carga inicial.
+  - Contenedores de anuncios con altura mínima o reserva de espacio (`min-height`) para prevenir saltos de diseño (CLS) al renderizar la publicidad.
+- **Campos Personalizados en Options para Custom Code (Analytics, Header, Footer)**:
+  - Página de opciones dedicada en ACF ("External Scripts & Analytics") con campos de código personalizado:
+    - **Header Scripts (`header_scripts`)**: Inyección segura en el `<head>` (Google Analytics GA4, Google Tag Manager, Search Console, AdSense Header).
+    - **Body Scripts (`body_scripts`)**: Inyección inmediata tras la apertura de `<body>` (`wp_body_open()`, ej. GTM `<noscript>` iframe).
+    - **Footer Scripts (`footer_scripts`)**: Inyección previa al cierre de `</body>` (`wp_footer()`, scripts de chat, píxeles de seguimiento y widgets diferidos).
 

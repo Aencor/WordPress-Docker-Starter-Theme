@@ -101,7 +101,7 @@ Cada componente visual se construye como un bloque ACF en `wp-content/themes/cod
 
 ## 📜 Resumen de Reglas de Desarrollo (`AGENTS.md`)
 
-Todo colaborador y agente debe respetar las 15 reglas establecidas en [AGENTS.md](file:///Users/kike/work/WordPress-Docker-Starter-Theme/AGENTS.md):
+Todo colaborador y agente debe respetar las 16 reglas establecidas en [AGENTS.md](file:///Users/kike/work/WordPress-Docker-Starter-Theme/AGENTS.md):
 1. **Tema Base**: Todo desarrollo se implementa exclusivamente en `codebymonk`.
 2. **Estructura ACF**: Bloques en `blocks/`, campo `Accordion` inicial y esquemas en `acf-json/`.
 3. **Tailwind CSS + GSAP**: Tailwind para estilos responsivos y GSAP para animaciones.
@@ -117,3 +117,4 @@ Todo colaborador y agente debe respetar las 15 reglas establecidas en [AGENTS.md
 13. **Organización de Imágenes**: Ubicación obligatoria en subcarpetas semánticas (`logos/`, `photos/`, `backgrounds/`, `blocks/`, `icons/`).
 14. **Reestructuración Obligatoria**: Si un proyecto previo se somete a revisión, refactorizarlo íntegramente para cumplir al 100% estas reglas.
 15. **Retroalimentación Global al Cierre**: Al finalizar un proyecto, revisar y actualizar este repositorio base con cualquier mejora de reglas de alcance global.
+16. **Optimización SEO, GEO SEO, PageSpeed Insights, AdSense y Custom Code**: Metadatos SEO/GEO dinámicos, Schema.org JSON-LD, optimización Core Web Vitals (defer, resource hints, lazy loading, prevención de CLS) y gestión dinámica de custom scripts y Google AdSense desde Theme Options.
