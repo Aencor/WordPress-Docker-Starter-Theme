@@ -15,21 +15,15 @@
 
 .back-transparent{
   background-color: transparent;
-  h1,h2,h3,h4,h5,h6,p{
-    color: $body-color !important;
-  }
 }
 
 .back-white{
   background-color: $white;
-  h1,h2,h3,h4,h5,h6,p{
-    color: $body-color !important;
-  }
 }
 
 .back-dark{
   background-color: $primaryColor;
   h1,h2,h3,h4,h5,h6,p{
-    color: $white !important;
+    color: $white;
   }
 }
