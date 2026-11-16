@@ -1,6 +1,6 @@
 # Reglas de Desarrollo del Proyecto (WordPress / Codebymonk)
 
-Este proyecto utiliza el tema base personalizado **codebymonk** con Docker, ACF Pro (Advanced Custom Fields), Tailwind CSS, GSAP y Laravel Mix. Todo desarrollo futuro debe adherirse estrictamente a las siguientes 12 reglas:
+Este proyecto utiliza el tema base personalizado **codebymonk** con Docker, ACF Pro (Advanced Custom Fields), Tailwind CSS, GSAP y Laravel Mix. Todo desarrollo futuro debe adherirse estrictamente a las siguientes 15 reglas:
 
 ---
 
@@ -12,6 +12,7 @@ Este proyecto utiliza el tema base personalizado **codebymonk** con Docker, ACF 
 
 ### 2. Estructura de Bloques ACF y `acf-json`
 - Cada componente visual se implementa como un **bloque Gutenberg de ACF** en la carpeta `wp-content/themes/codebymonk/blocks/`.
+- **Estructura de Acordeón en ACF**: Al crear o definir los campos de cualquier bloque ACF, se debe incluir siempre un campo tipo **Accordion** al inicio con el nombre del bloque para que sea fácil de gestionar y colapsar en el backend de WordPress.
 - La configuración de campos de ACF debe guardarse y versionarse siempre en formato JSON dentro de `wp-content/themes/codebymonk/acf-json/`.
 - Nunca dejar campos desincronizados; asegurar la sincronización automática de ACF JSON.
 
@@ -48,7 +49,7 @@ Este proyecto utiliza el tema base personalizado **codebymonk** con Docker, ACF 
 ### 7. Preview / Screenshot para Bloques ACF en el Backend
 - Cada bloque ACF creado debe contar con su **vista previa o captura (screenshot)** para el selector de bloques de Gutenberg.
 - Configurar el soporte `example` en el registro del bloque ACF (`acf_register_block_type`) y manejar el modo `$is_preview` para mostrar una imagen o mockup representativo en el editor.
-- Almacenar las imágenes de preview organizadas (por ejemplo en `assets/img/blocks/{slug}.png` o `blocks/previews/{slug}.png`).
+- Almacenar las imágenes de preview organizadas dentro de `wp-content/themes/codebymonk/assets/img/blocks/{slug}.png`.
 
 ---
 
@@ -92,5 +93,33 @@ Este proyecto utiliza el tema base personalizado **codebymonk** con Docker, ACF 
   - **NUNCA hacer `git push` de forma automática.**
   - Mantener los commits únicamente en local hasta que el usuario solicite explícitamente enviarlos al repositorio remoto.
 
+---
 
+### 13. Estructura Organizada de Imágenes (`assets/img/`)
+- Toda imagen estática del tema debe organizarse obligatoriamente en subcarpetas semánticas dentro de `wp-content/themes/codebymonk/assets/img/`:
+  - `logos/`: Logos, isotipos, marcas de agua y favicons.
+  - `photos/`: Fotografías de personas, equipo, testimonios y clientes.
+  - `backgrounds/`: Fondos, texturas, banners e imágenes de ambientación.
+  - `blocks/`: Capturas y vistas previas de bloques ACF para el selector de Gutenberg (Regla 7).
+  - `icons/`: Iconos SVG o rasterizados de interfaz.
+- Nunca colocar imágenes sueltas en la raíz de `assets/img/`.
+
+---
+
+### 14. Reestructuración Obligatoria en Revisiones y Proyectos Iniciados
+- Si el proyecto ya está iniciado (o contiene código previo) y el usuario solicita una revisión, auditoría o check del proyecto, se debe **reestructurar y refactorizar todo lo necesario para alinearlo al 100% con estas reglas sin excepción**:
+  - Eliminar cualquier contenido hardcodeado en plantillas o bloques PHP y migrarlo a campos dinámicos de ACF.
+  - Comprobar que cada grupo de campos ACF en `acf-json/` inicie con un campo tipo `Accordion` representativo del bloque.
+  - Generar o verificar los screenshots de preview para el selector de bloques en `assets/img/blocks/{slug}.png`.
+  - Mover y clasificar cualquier imagen suelta dentro de su subcarpeta semántica en `assets/img/` (`logos/`, `photos/`, `backgrounds/`, `blocks/`, `icons/`).
+  - Separar estilos en archivos SCSS dedicados (`assets/scss/blocks/_{slug}.scss`) e integrarlos en `_all.scss`.
+  - Modularizar scripts con GSAP y trasladar lógica repetitiva a clases en `classes/` aplicando DRY y SOLID.
+  - Purgar cualquier tema ajeno a `codebymonk` en `wp-content/themes/`.
+
+---
+
+### 15. Sincronización y Retroalimentación de Reglas Globales al Cierre de Proyecto
+- Al concluir o entregar cualquier proyecto derivado, se debe contrastar y revisar este listado maestro de reglas (`AGENTS.md`).
+- Si durante el desarrollo de ese proyecto se optimizaron flujos, se corrigieron arquitecturas o se descubrieron mejores prácticas de carácter **global** (aplicables a todos los desarrollos y no específicas de un cliente o funcionalidad aislada), dichas optimizaciones deben transferirse y actualizarse en este repositorio base (`WordPress-Docker-Starter-Theme`).
+- Esto garantiza que cada nuevo sitio comience con la base más refinada y actualizada.
 
