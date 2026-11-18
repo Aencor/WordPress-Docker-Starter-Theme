@@ -1,6 +1,6 @@
 # Reglas de Desarrollo del Proyecto (WordPress / Codebymonk)
 
-Este proyecto utiliza el tema base personalizado **codebymonk** con Docker, ACF Pro (Advanced Custom Fields), Tailwind CSS, GSAP y Laravel Mix. Todo desarrollo futuro debe adherirse estrictamente a las siguientes 16 reglas:
+Este proyecto utiliza el tema base personalizado **codebymonk** con Docker, ACF Pro (Advanced Custom Fields), Tailwind CSS, GSAP y Laravel Mix. Todo desarrollo futuro debe adherirse estrictamente a las siguientes 17 reglas:
 
 ---
 
@@ -161,4 +161,35 @@ Este proyecto utiliza el tema base personalizado **codebymonk** con Docker, ACF 
     - **Header Scripts (`header_scripts`)**: Inyección segura en el `<head>` (Google Analytics GA4, Google Tag Manager, Search Console, AdSense Header).
     - **Body Scripts (`body_scripts`)**: Inyección inmediata tras la apertura de `<body>` (`wp_body_open()`, ej. GTM `<noscript>` iframe).
     - **Footer Scripts (`footer_scripts`)**: Inyección previa al cierre de `</body>` (`wp_footer()`, scripts de chat, píxeles de seguimiento y widgets diferidos).
+
+---
+
+### 17. Protocolo de Blog y Checklist SEO On-Page Pre-Publicación (Estándar CodeByMonk)
+Todo módulo de blog, plantilla de artículo (`single.php`) y contenido editorial creado para WordPress debe adherirse rigurosamente a la metodología y checklist de 7 puntos de CodeByMonk ([seo-on-page-wordpress-checklist](https://codebymonk.com/seo-on-page-wordpress-checklist/)):
+
+1. **Título Único y Menor a 60 Caracteres**:
+   - Cada entrada o artículo debe contar con un título único y atractivo, con la palabra clave principal situada cerca del inicio.
+   - Longitud estricta: menos de 60 caracteres para evitar truncamiento en los SERPs de Google.
+2. **Meta Descripción que Invite al Clic (120 a 160 Caracteres)**:
+   - Longitud entre 120 y 160 caracteres conteniendo la palabra clave y un beneficio tangible y persuasivo.
+   - Tratar la meta descripción como el copy de un anuncio: si no convence en dos líneas, el clic se lo lleva otro resultado.
+3. **Estructura de Encabezados y Redacción para Escanear**:
+   - **Un solo `<h1>` por artículo**: El `<h1>` representa el tema principal indiscutible.
+   - **Capítulos `<h2>` y Secciones `<h3>`**: División en capítulos lógicos estrictamente descendentes sin saltos arbitrarios.
+   - **Escribir para escanear**: Párrafos cortos de 2 a 3 oraciones, una idea por párrafo, uso de viñetas (`<ul>`, `<ol>`) y citas destacadas (`<blockquote>`). Si el lector entiende el artículo leyendo únicamente los encabezados, la estructura es correcta.
+4. **URLs Limpias y Palabras Clave Estratégicas (Sin Relleno)**:
+   - Estructura de enlaces permanentes corta y semántica basada en el nombre de la entrada (`/%postname%/`), sin fechas ni parámetros raros.
+   - La palabra clave debe aparecer en los cuatro puntos neurálgicos: en el título, en el primer párrafo (primeras 100 palabras), en al menos un `<h2>` y en la URL. Prohibido el *keyword stuffing*.
+5. **Optimización de Imágenes y Texto Alternativo (`alt`)**:
+   - Compresión previa a la subida en formatos modernos ligeros (**WebP** o AVIF).
+   - Nombres de archivo descriptivos con palabras reales separadas por guiones (ejemplo: `seo-local-wordpress-google-maps.webp` en vez de `IMG_1234.jpg`).
+   - El atributo `alt` es contenido accesible para lectores de pantalla y Google: describir fielmente lo que muestra la imagen integrando la palabra clave solo cuando tenga sentido contextual.
+6. **Estrategia de Enlazado Interno y Externo (Arquitectura Web)**:
+   - Cada artículo debe incluir obligatoriamente **de 2 a 3 enlaces internos** hacia páginas de servicios (`/#servicios`), portafolio (`/#portafolio`), contacto (`/#contacto`) u otros artículos relacionados del blog.
+   - Usar texto de anclaje (anchor text) semántico y descriptivo, nunca frases vacías como "haz clic aquí" o "más información".
+   - Todo enlace interno y externo debe contar con contrastes accesibles WCAG AA (> 4.5:1), subrayado discernible (`text-underline-offset`) y estados `:hover` y `:focus-visible`.
+7. **Velocidad, Experiencia Móvil y Marcado Estructurado Schema.org**:
+   - Priorizar métricas de Core Web Vitals (LCP < 1.8s, TBT < 50ms, CLS = 0).
+   - Móvil primero: botones táctiles accesibles (mínimo 44x44px), tipografías fluidas legibles sin necesidad de zoom y cero desbordes horizontales.
+   - Marcado Schema.org enriquecido con `BlogPosting` o `Article` y `BreadcrumbList` en formato JSON-LD, incluyendo autor (`Person`), fecha de publicación (`datePublished`), fecha de modificación (`dateModified`), descripción y medios.
 
